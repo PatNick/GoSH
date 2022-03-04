@@ -14,8 +14,6 @@ func execInput(input string) error {
 
 	args := strings.Split(input, " ")
 
-	cmd := exec.Command(args[0], args[1:]...)
-
 	switch args[0] {
 	case "cd":
 		if len(args) < 2 {
@@ -26,12 +24,14 @@ func execInput(input string) error {
 		if len(args) != 1 {
 			return errors.New("no arguments required")
 		}
-		cmd = exec.Command("clear")
+		args[0] = "clear"
 	case "dir":
-		cmd = exec.Command("ls", args[1:]...)
+		args[0] = "ls"
 	case "quit":
 		os.Exit(0)
 	}
+
+	cmd := exec.Command(args[0], args[1:]...)
 
 	cmd.Stderr = os.Stderr
 	cmd.Stdout = os.Stdout
